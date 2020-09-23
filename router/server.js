@@ -14,7 +14,9 @@ app.use(koaBody({
 }));
 
 app.use(async (ctx, next) => {
+  console.log(ctx.request.querystring);
   const origin = ctx.request.get('Origin');
+  
   if (!origin) {
     return await next();
   }
@@ -43,9 +45,11 @@ app.use(async (ctx, next) => {
   
     ctx.response.status = 204; // No content
   }
+
+  console.log(ctx.request.querystring);
 });
 
-app.use(async (ctx) => {
+/*app.use(async (ctx) => {
   console.log(ctx.request.querystring);
   console.log(ctx.request.body);
   ctx.response.body = 'server response 2';
