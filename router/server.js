@@ -5,18 +5,17 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 
 const app = new Koa();
-const port = process.env.PORT || 7070;
+const port = 7070;
 const public = path.join(__dirname, '/public');
 
 app.use(koaBody({
   urlencoded: true,
-  multipart: true,
+  //multipart: true,
 }));
 
 app.use(async (ctx, next) => {
-  console.log(ctx.request.querystring);
   const origin = ctx.request.get('Origin');
-  
+
   if (!origin) {
     return await next();
   }
@@ -43,20 +42,19 @@ app.use(async (ctx, next) => {
       ctx.response.set('Access-Control-Allow-Headers', ctx.request.get('Access-Control-Allow-Request-Headers'));
     }
   
-    ctx.response.status = 204; // No content
+    ctx.response.status = 204;
   }
-
-  console.log(ctx.request.querystring);
 });
 
-/*app.use(async (ctx) => {
-  console.log(ctx.request.querystring);
-  console.log(ctx.request.body);
-  ctx.response.body = 'server response 2';
+app.use(async (ctx) => { 
+  const { method } = ctx.request.query;
 
-  console.log("Синхронное чтение файла")
-  let fileContent = fs.readFileSync("./server/db/db.txt", "utf8");
-  console.log(fileContent);
+  if (method === 'allTicket') {
+    ctx.response.body = fs.readFileSync("./router/db/ticket.json", "utf8");
+    return;
+  }
+
+  ctx.response.body = 'POST';
 });
 
 const server = http.createServer(app.callback()).listen(port);
