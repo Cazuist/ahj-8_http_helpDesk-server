@@ -5,7 +5,8 @@ const Koa = require('koa');
 const koaBody = require('koa-body');
 
 const app = new Koa();
-const port = 7070;
+const port = process.env.PORT || 7070;
+
 const public = path.join(__dirname, '/public');
 
 app.use(koaBody({
@@ -50,7 +51,8 @@ app.use(async (ctx) => {
   const { method } = ctx.request.query;
 
   if (method === 'allTicket') {
-    ctx.response.body = fs.readFileSync("./router/db/ticket.json", "utf8");
+    ctx.response.body = ctx.request.method;
+    //ctx.response.body = fs.readFileSync("./router/db/ticket.json", "utf8");
     return;
   }
 
