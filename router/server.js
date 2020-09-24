@@ -58,6 +58,14 @@ app.use(async (ctx) => {
 
   ctx.response.body = 'POST';
 });*/
+let tickets = [{
+  id: 1, name: 'text', description: 'Описание1', status: false, created: '1.01.01',
+}, {
+  id: 2, name: 'text2', description: 'Описание2', status: false, created: '1.01.01',
+}, {
+  id: 3, name: 'text3', description: 'Описание3', status: false, created: '1.01.01',
+}];
+
 
 app.use(async (ctx) => {
   ctx.response.set({
@@ -65,7 +73,7 @@ app.use(async (ctx) => {
     'Access-Control-Allow-Methods': ['DELETE', 'PUT', 'PATCH'],
   });
 
-  /*if (ctx.request.method === 'GET') {
+  if (ctx.request.method === 'GET') {
     if (ctx.request.querystring === 'tickets') {
       ctx.response.body = tickets;
     } else {
@@ -113,9 +121,9 @@ app.use(async (ctx) => {
       tickets[tickets.indexOf(ticket[0])].status = false;
     } else {
       tickets[tickets.indexOf(ticket[0])].status = true;
-    }*/
+    }
 
-    ctx.response.body = ctx.response.method;
+    ctx.response.body = tickets[tickets.indexOf(ticket[0])].status;
 }
 
 const server = http.createServer(app.callback()).listen(port);
